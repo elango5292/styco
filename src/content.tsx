@@ -1,7 +1,7 @@
 import cssText from "data-text:~style.css"
 import { LuMove } from "react-icons/lu";
 import { MdOutlineClose } from "react-icons/md";
-import { CgMinimize } from "react-icons/cg";
+import { LiaWindowMinimize } from "react-icons/lia";
 import Draggable from 'react-draggable';
 import { Resizable } from 're-resizable';
 import { useState, useEffect } from "react";
@@ -122,17 +122,17 @@ setcontent(4)
           bottomLeft: "pointer-events-none",
           topLeft: "pointer-events-none",
         }}
-          className="!bg-[#1E2124] !max-h-[80vh]  !h-fit !min-w-fit  !max-w-[70vw] select-none flex items-center mr-3 !z-20 !fixed !top-[15vh] !left-[70vw] !px-3 !py-4  !rounded-lg !shadow-lg   ">
+          className="!bg-[#1E2124] !max-h-[80vh] !shadow-[#bfc3c8]  !h-fit !min-w-fit  !max-w-[70vw] select-none flex items-center mr-3 !z-20 !fixed !top-[15vh] !left-[70vw] !px-3 !py-4  !rounded-lg !drop-shadow-md !shadow-md   ">
           <div className="h-full w-full">
-            <div className="flex bg-[#424549] !z-10 rounded-lg !min-w-[200px]  justify-between px-2 py-1 items-center">
+            <div className="flex bg-[#424549] handle !z-10 rounded-lg !min-w-[200px]  justify-between !px-2 !py-1  items-center">
               <h2 className="text-xl font-bold text-gray-200">Styco.</h2>
               <div className="flex handle flex-row gap-x-3">
                 <button className="text-gray-200 hover:text-gray-400" title="Move">
-                  <LuMove className="h-5 w-5" />
+                  <LuMove className="h-4 w-4" />
                 </button>
 
                 <button className="text-gray-200 hover:text-gray-400" onClick={()=>setminimize(!minimize)} title="Close">
-                  <CgMinimize className="h-5 w-5" />
+                  < LiaWindowMinimize className="h-5 w-5" />
                 </button>
 
                 <button className="text-gray-200 hover:text-gray-400" onClick={()=>setshowoverlay(false)} title="Close">
@@ -143,10 +143,10 @@ setcontent(4)
               </div>
 
             </div>
-            <div className="my-2 rounded-lg text-[#9096A0] !bg-[#282B30] pr-4 pl-2  !min-w-full  !max-h-[70vh]  mx-auto  overflow-auto scrollbar-thumb-rounded scrollbar-thumb-[#B3B3B3] scrollbar-track-rounded-full  scrollbar-thin !scrollbar-track-ring">
+            <div className="my-2 rounded-lg text-[#bdc2cb] !bg-[#282B30] pr-4 pl-2  !min-w-full  !max-h-[65vh]  mx-auto scrollbar-track-[#000]  overflow-auto !scrollbar-thumb-rounded !scrollbar-thumb-[#cfd2d4]  !scrollbar-track-rounded-full  !scrollbar-thin ">
               {
                 (content === 3) &&
-                (<> <p className={minimize ? "select-text py-4 text-pretty text-base" : "hidden"}>
+                (<> <p className={!minimize ? "select-text py-4 text-pretty text-base" : "hidden"}>
                   {text}
                 </p></>)
               }
