@@ -7,11 +7,11 @@ const {
   
   const MODEL_NAME = "gemini-pro";
   const API_KEY = "AIzaSyB_evRoaXWH77p3skPjlNvQdvTs1Z3qXyI";
-  const prompt = `i like author noah harari of sapiens. rephrase the part of a passage as if it was written by noah harari, which i might like reading. Return only the rephrased text, without any additional commentary or explanation, and keep the rephrased text around same size original.\n`
   
   async function runai(query,style) {
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+    const prompt = `i like the author ${style}. rephrase the part of a passage as if it was written by ${style}, which i might like reading. Return only the rephrased text, without any additional commentary or explanation, and keep the rephrased text around same size original.\n`
   
     const generationConfig = {
       temperature: 0.9,
