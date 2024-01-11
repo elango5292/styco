@@ -23,7 +23,7 @@ const texxt = `It was either Google AI Studio creates a new Google Cloud project
 function checkaction(selection:Text) {
 
   let nchar = selection.length
-  if (nchar <= 300000) {
+  if (nchar <= 70000) {
     return true
   } else {
     return false
@@ -77,16 +77,22 @@ const PlasmoOverlay = () => {
   // 1 for skele, 2 for too large text selection and 3 for showing text
   const [text, settext] = useState("")
   const [minimize, setminimize] = useState(false)
+  var selectedtext = ""
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener(async ({ type, text }) => {
-      if (type === "styco") {
+      if (type === "styco") {   
         setcontent(1)
         setminimize(false)
         setshowoverlay(true)
+        selectedtext=text
         let currentauthor= getauthor()
         let action = checkaction(text)
         if (action) {
+        let adpara=getParas(text.length,text)
+        let adtitle = getTitle()
+        let adurl = getUrl()
+        console.log(adpara)
           try{
             runai(text,currentauthor)
             .then(response => settext(response)).then(()=>setcontent(3))
@@ -100,6 +106,50 @@ setcontent(4)
 } return true
     })
   }, [])
+
+  function getTitle(){
+    return document.title
+}
+
+function getUrl(){
+return window.location.href
+}
+function getParas(nlen, text) {
+    let para = "";
+    let mlen = 70000 - nlen;
+    let right = ""
+    let left = ""
+    let paragraphs = Array.from(document.getElementsByTagName('p')).map(p => p.innerText);
+    let index = paragraphs.findIndex(paragraph => paragraph.includes(text));
+    before = "";
+    after = "";
+    if (index !== -1) {
+        before = index > 0 ? paragraphs[index - 1] : "";
+        after = index < paragraphs.length - 1 ? paragraphs[index + 1] : "";
+    }
+    if (before.length < mlen) {
+        para = para + before;
+        mlen = mlen - para.length;
+    }
+    if (para.length < after.length) {
+        para = para + after;
+        mlen = mlen - after.length;
+    }
+    for (let p of paragraphs) {
+        let plen = p.length;
+        if (plen < mlen) {
+            para = para + p;
+            mlen = mlen - plen;
+        } else {
+            break;
+        }
+    }
+    return para;
+}
+
+
+
+
   return (
 
     <div className={showoverlay ? "!z-10 !w-screen !h-screen" : "hidden"} key="Converted-display">
@@ -131,7 +181,7 @@ setcontent(4)
                   <LuMove className="h-4 w-4" />
                 </button>
 
-                <button className="text-gray-200 hover:text-gray-400" onClick={()=>setminimize(!minimize)} title="Close">
+                <button className="text-gray-200 hover:text-gray-400" onClick={()=>setminimize(!minimize)} title="Minimize">
                   < LiaWindowMinimize className="h-5 w-5" />
                 </button>
 
@@ -175,3 +225,4 @@ setcontent(4)
 }
 
 export default PlasmoOverlay
+
